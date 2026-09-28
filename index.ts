@@ -3,7 +3,7 @@ import { ON_OFF, brand, completer, setMode } from "@prjct.app/pi-tui-kit";
 
 const ENTRY_TYPE = "pi-fast-mode";
 const LEGACY_ENTRY_TYPE = "openai-codex-fast-mode";
-const DEFAULT_ENABLED = true;
+const DEFAULT_ENABLED = false;
 
 const FAST_MODELS_BY_PROVIDER = new Map<string, ReadonlySet<string>>([
   [
