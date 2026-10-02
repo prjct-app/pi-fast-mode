@@ -1,5 +1,38 @@
 {
-  "name": "pi-fast-mode",
-  "private": true,
-  "type": "module"
+  "name": "@prjct.app/pi-fast-mode",
+  "version": "0.1.0",
+  "description": "Pi extension: switch to fast mode for high-frequency tool calls",
+  "type": "module",
+  "license": "MIT",
+  "keywords": [
+    "pi-package",
+    "pi",
+    "pi-extension",
+    "fast-mode",
+    "performance"
+  ],
+  "pi": {
+    "extensions": [
+      "./index.ts"
+    ]
+  },
+  "engines": {
+    "node": ">=22.19.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/prjct-app/pi-fast-mode.git"
+  },
+  "bugs": {
+    "url": "https://github.com/prjct-app/pi-fast-mode/issues"
+  },
+  "homepage": "https://github.com/prjct-app/pi-fast-mode#readme",
+  "files": [
+    "index.ts"
+  ],
+  "scripts": {
+    "check": "tsc --noEmit",
+    "test": "node --import tsx --test tests/*.test.ts"
+  },
+  "dependencies": {}
 }
