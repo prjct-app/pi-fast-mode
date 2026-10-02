@@ -1,7 +1,7 @@
 {
   "name": "@prjct.app/pi-fast-mode",
-  "version": "0.1.0",
-  "description": "Pi extension: switch to fast mode for high-frequency tool calls",
+  "version": "0.1.1",
+  "description": "Toggle the priority service tier for supported Codex and Grok models in Pi.",
   "type": "module",
   "license": "MIT",
   "keywords": [
@@ -14,25 +14,38 @@
   "pi": {
     "extensions": [
       "./index.ts"
-    ]
+    ],
+    "image": "https://raw.githubusercontent.com/prjct-app/pi-local-extensions/main/pi-fast-mode/docs/cover-v2.png"
   },
   "engines": {
     "node": ">=22.19.0"
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/prjct-app/pi-fast-mode.git"
+    "url": "git+https://github.com/prjct-app/pi-local-extensions.git",
+    "directory": "pi-fast-mode"
   },
   "bugs": {
-    "url": "https://github.com/prjct-app/pi-fast-mode/issues"
+    "url": "https://github.com/prjct-app/pi-local-extensions/issues"
   },
-  "homepage": "https://github.com/prjct-app/pi-fast-mode#readme",
+  "homepage": "https://github.com/prjct-app/pi-local-extensions/tree/main/pi-fast-mode#readme",
   "files": [
-    "index.ts"
+    "index.ts",
+    "README.md",
+    "LICENSE",
+    "docs/cover.png",
+    "docs/cover-v2.png"
   ],
   "scripts": {
-    "check": "tsc --noEmit",
-    "test": "node --import tsx --test tests/*.test.ts"
+    "check:package": "npm pack --dry-run --ignore-scripts"
   },
-  "dependencies": {}
+  "dependencies": {
+    "@prjct.app/pi-tui-kit": "^0.3.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "peerDependencies": {
+    "@earendil-works/pi-coding-agent": "*"
+  }
 }

@@ -53,7 +53,7 @@ export default function fastPriorityMode(pi: ExtensionAPI) {
   let enabled = DEFAULT_ENABLED;
 
   function updateStatus(ctx: ExtensionContext): void {
-    // Shown on the shared mode line (p-ui) only while it actually applies.
+    // Shown on the shared mode line (pi-ui) only while it actually applies.
     setMode(ctx, "fast", enabled && isFastModel(ctx.model) ? "fast" : undefined);
   }
 
