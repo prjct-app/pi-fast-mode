@@ -1,6 +1,6 @@
 # pi-fast-mode
 
-[![pi-fast-mode — for PI Agent](https://raw.githubusercontent.com/prjct-app/pi-local-extensions/main/pi-fast-mode/docs/cover-v2.png)](https://pi.dev)
+[![pi-fast-mode — for PI Agent](https://raw.githubusercontent.com/prjct-app/pi-fast-mode/main/docs/cover-v2.png)](https://pi.dev)
 
 Opt into the priority service tier for supported Codex and Grok models in Pi.
 
