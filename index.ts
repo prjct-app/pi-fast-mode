@@ -36,35 +36,32 @@ function isFastModeEntry(customType: string | undefined): boolean {
 }
 
 function readPersistedState(ctx: ExtensionContext): boolean {
-  let enabled = DEFAULT_ENABLED;
-
-  for (const entry of ctx.sessionManager.getBranch()) {
-    if (entry.type !== "custom" || !isFastModeEntry(entry.customType)) continue;
-
-    const data = entry.data as Partial<FastModeState> | undefined;
-    if (typeof data?.enabled === "boolean") enabled = data.enabled;
-  }
-
-  return enabled;
+  return ctx.sessionManager
+    .getBranch()
+    .reduce((enabled, entry) => {
+      if (entry.type !== "custom" || !isFastModeEntry(entry.customType)) return enabled;
+      const data = entry.data as Partial<FastModeState> | undefined;
+      return typeof data?.enabled === "boolean" ? data.enabled : enabled;
+    }, DEFAULT_ENABLED);
 }
 
 /** Add a session-level Fast/Standard toggle for supported Codex and Grok models. */
 export default function fastPriorityMode(pi: ExtensionAPI) {
-  let enabled = DEFAULT_ENABLED;
+  const state = { enabled: DEFAULT_ENABLED };
 
   function updateStatus(ctx: ExtensionContext): void {
     // Shown on the shared mode line (pi-ui) only while it actually applies.
-    setMode(ctx, "fast", enabled && isFastModel(ctx.model) ? "fast" : undefined);
+    setMode(ctx, "fast", state.enabled && isFastModel(ctx.model) ? "fast" : undefined);
   }
 
   function setEnabled(next: boolean, ctx: ExtensionContext): void {
-    enabled = next;
-    pi.appendEntry(ENTRY_TYPE, { enabled } satisfies FastModeState);
+    state.enabled = next;
+    pi.appendEntry(ENTRY_TYPE, { enabled: state.enabled } satisfies FastModeState);
     updateStatus(ctx);
   }
 
   pi.on("session_start", (_event, ctx) => {
-    enabled = readPersistedState(ctx);
+    state.enabled = readPersistedState(ctx);
     updateStatus(ctx);
   });
 
@@ -73,7 +70,7 @@ export default function fastPriorityMode(pi: ExtensionAPI) {
   });
 
   pi.on("before_provider_request", (event, ctx) => {
-    if (!enabled || !isFastModel(ctx.model)) return;
+    if (!state.enabled || !isFastModel(ctx.model)) return;
     if (!isRequestPayload(event.payload) || event.payload.model !== ctx.model?.id) return;
 
     return {
@@ -93,7 +90,7 @@ export default function fastPriorityMode(pi: ExtensionAPI) {
 
       if (action === "status") {
         const support = isFastModel(ctx.model) ? "supported by the current model" : "not supported by the current model";
-        ctx.ui.notify(`Fast mode is ${enabled ? "on" : "off"}; ${support}.`, "info");
+        ctx.ui.notify(`Fast mode is ${state.enabled ? "on" : "off"}; ${support}.`, "info");
         return;
       }
 
@@ -102,7 +99,7 @@ export default function fastPriorityMode(pi: ExtensionAPI) {
         return;
       }
 
-      const next = action === "on" ? true : action === "off" ? false : !enabled;
+      const next = action === "on" ? true : action === "off" ? false : !state.enabled;
       setEnabled(next, ctx);
       ctx.ui.notify(
         next

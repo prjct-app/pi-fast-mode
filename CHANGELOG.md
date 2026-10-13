@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.1.3 — 2026-10-12
+
+- Code: no `let` bindings; mutable state lives in one named object. Behaviour is unchanged.
+- Tests run with temporary Pi and prjct folders, so they never touch your real configuration.
+
 ## 0.1.2 — 2026-10-06
 
 - Publish from an independent repository with its own checks, lockfile and declared npm dependencies. Preserve the extension history and install name.
